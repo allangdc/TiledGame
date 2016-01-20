@@ -1,9 +1,10 @@
 #include "tmxfiles.h"
 
 #include <QFile>
+#include <QDomDocument>
 #include <QDebug>
 
-TMXFiles::TMXFiles(QObject *parent) : QObject(parent)
+TMXFiles::TMXFiles()
 {
 
 }
@@ -24,6 +25,8 @@ bool TMXFiles::ReadFiles(QString filename)
 
     map = new Map();
     map->Load(&root);
+
+    return true;
 }
 
 void TMXFiles::Print()
@@ -44,6 +47,12 @@ QSize TMXFiles::TiledSize()
 QSize TMXFiles::MatrixSize()
 {
     return QSize(map->width, map->height);
+}
+
+int TMXFiles::MatrixID(int layer, int x, int y)
+{
+    int i = y*MatrixSize().width() + x;
+    return map->layers.at(layer).data.at(i) - map->tileset.firstgid;
 }
 
 /***************************

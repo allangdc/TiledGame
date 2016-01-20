@@ -1,7 +1,6 @@
 #ifndef TMXFILES_H
 #define TMXFILES_H
 
-#include <QObject>
 #include <QString>
 #include <QVector>
 #include <QDomNode>
@@ -10,7 +9,7 @@
 
 class Image {
 public:
-    Image() {};
+    Image() {}
     void Load(QDomElement *img);
     void Print(int tabs);
     QString source;
@@ -27,7 +26,7 @@ public:
 
 class Tile {
 public:
-    Tile() {};
+    Tile() {}
     Tile(int id);
     void Load(QDomElement *tl);
     void Print(int tabs);
@@ -38,7 +37,7 @@ public:
 
 class TileSet {
 public:
-    TileSet() {};
+    TileSet() {}
     void Load(QDomElement *ts);
     void Print(int tabs=0);
     int firstgid;
@@ -52,7 +51,7 @@ public:
 
 class Layer {
 public:
-    Layer() {};
+    Layer() {}
     Layer(const Layer &l);
     void Load(QDomElement *ly);
     void Print(int tabs);
@@ -91,7 +90,7 @@ public:
 
 class ObjectGroup {
 public:
-    ObjectGroup() {};
+    ObjectGroup() {}
     int id;
     int type;
     QVector<Object *> object;
@@ -99,7 +98,7 @@ public:
 
 class Map {
 public:
-    Map() {};
+    Map() {}
     void Load(QDomElement *root);
     void Print(int tabs=0);
     qreal version;
@@ -114,19 +113,16 @@ public:
     ObjectGroup objectgroup;
 };
 
-class TMXFiles : public QObject
+class TMXFiles
 {
-    Q_OBJECT
 public:
-    explicit TMXFiles(QObject *parent = 0);
+    explicit TMXFiles();
     bool ReadFiles(QString filename);
     void Print();
     Map *GetMap();
     QSize TiledSize();
     QSize MatrixSize();
-signals:
-
-public slots:
+    int MatrixID(int layer, int x, int y);
 private:
     QDomElement root;
     Map *map;
