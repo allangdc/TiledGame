@@ -6,6 +6,7 @@
 #include <QVector>
 #include <QDomNode>
 #include <QDomElement>
+#include <QSize>
 
 class Image {
 public:
@@ -119,6 +120,10 @@ class TMXFiles : public QObject
 public:
     explicit TMXFiles(QObject *parent = 0);
     bool ReadFiles(QString filename);
+    void Print();
+    Map *GetMap();
+    QSize TiledSize();
+    QSize MatrixSize();
 signals:
 
 public slots:

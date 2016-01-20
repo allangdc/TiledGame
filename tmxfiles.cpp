@@ -24,7 +24,26 @@ bool TMXFiles::ReadFiles(QString filename)
 
     map = new Map();
     map->Load(&root);
+}
+
+void TMXFiles::Print()
+{
     map->Print();
+}
+
+Map *TMXFiles::GetMap()
+{
+    return map;
+}
+
+QSize TMXFiles::TiledSize()
+{
+    return QSize(map->tilewidth, map->tilewidth);
+}
+
+QSize TMXFiles::MatrixSize()
+{
+    return QSize(map->width, map->height);
 }
 
 /***************************

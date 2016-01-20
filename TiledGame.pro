@@ -13,13 +13,12 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
     tmxfiles.cpp
 
-HEADERS  += mainwindow.h \
+HEADERS  += \
     tmxfiles.h
 
-FORMS    += mainwindow.ui
+FORMS    +=
 
 CONFIG += mobility
 MOBILITY = 
