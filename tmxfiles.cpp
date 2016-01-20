@@ -2,6 +2,7 @@
 
 #include <QFile>
 #include <QDomDocument>
+#include <QTime>
 #include <QDebug>
 
 TMXFiles::TMXFiles()
@@ -214,10 +215,33 @@ Layer::Layer(const Layer &l)
 void Layer::Load(QDomElement *ly)
 {
     QDomElement dt = ly->firstChildElement("data").toElement();
-    for(int i=0; i<dt.childNodes().size(); i++) {
-        QDomElement tile = dt.childNodes().at(i).toElement();
-        int id = tile.attribute("gid").toInt();
-        data.push_back(id);
+    if(dt.attribute("encoding") == "csv") {
+        QTime t1, t2;
+        t1 = QTime::currentTime();
+        QString str = dt.text();
+        str.replace("\n", ",");
+        if(str.at(0) == ',') {
+            str.remove(0,1);
+        }
+        if(str.at(str.size()-1) == ',') {
+           str.remove(str.size()-1, 1);
+        }
+        QStringList list = str.split(",");
+        foreach(QString s, list){
+          data << s.toInt();
+        }
+        t2 = QTime::currentTime();
+        qDebug() << t1.msecsTo(t2);
+    } else if(!dt.hasAttribute("encoding")) {
+        QTime t1, t2;
+        t1 = QTime::currentTime();
+        for(int i=0; i<dt.childNodes().size(); i++) {
+            QDomElement tile = dt.childNodes().at(i).toElement();
+            int id = tile.attribute("gid").toInt();
+            data.push_back(id);
+        }
+        t2 = QTime::currentTime();
+        qDebug() << t1.msecsTo(t2);
     }
     name = ly->attribute("name");
     width = ly->attribute("width").toInt();
