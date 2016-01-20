@@ -122,7 +122,9 @@ public:
     Map *GetMap();
     QSize TiledSize();
     QSize MatrixSize();
+    int NumLayers();
     int MatrixID(int layer, int x, int y);
+    Tile MatrixTile(int layer, int x, int y);
 private:
     QDomElement root;
     Map *map;

@@ -14,9 +14,10 @@ int main(int argc, char *argv[])
 
 
     TMXFiles tmx;
-    //tmx.ReadFiles("/tmp/teste2.tmx");
-    tmx.ReadFiles("/tmp/tobi.tmx");
-    tmx.Print();
+
+    tmx.ReadFiles("/tmp/map_tank.tmx");
+    Tile tile = tmx.MatrixTile(0, 5, 3);
+    //tmx.Print();
 
 //    for(int y=0; y<tmx.MatrixSize().height(); y++) {
 //        QString s = "| ";

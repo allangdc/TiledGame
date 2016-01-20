@@ -50,10 +50,21 @@ QSize TMXFiles::MatrixSize()
     return QSize(map->width, map->height);
 }
 
+int TMXFiles::NumLayers()
+{
+    return map->layers.size();
+}
+
 int TMXFiles::MatrixID(int layer, int x, int y)
 {
     int i = y*MatrixSize().width() + x;
     return map->layers.at(layer).data.at(i) - map->tileset.firstgid;
+}
+
+Tile TMXFiles::MatrixTile(int layer, int x, int y)
+{
+    int id = MatrixID(layer, x, y);
+    return map->tileset.tile.at(id);
 }
 
 /***************************
@@ -219,13 +230,7 @@ void Layer::Load(QDomElement *ly)
         QTime t1, t2;
         t1 = QTime::currentTime();
         QString str = dt.text();
-        str.replace("\n", ",");
-        if(str.at(0) == ',') {
-            str.remove(0,1);
-        }
-        if(str.at(str.size()-1) == ',') {
-           str.remove(str.size()-1, 1);
-        }
+        str.replace("\n", "");
         QStringList list = str.split(",");
         foreach(QString s, list){
           data << s.toInt();
