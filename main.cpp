@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 
     QGraphicsScene scene;
     scene.setSceneRect(0,0,800,800);
-    QPixmap pmap = tmx.TilesetImage();
+    QPixmap pmap = tmx.TileImage(0, 5, 5);
     QGraphicsPixmapItem gmap(pmap);
     scene.addItem(&gmap);
     gmap.setPos(0,0);

@@ -129,6 +129,7 @@ public:
     Tile MatrixTile(int layer, int x, int y);
     Tile TileByID(int id);
     QPixmap TilesetImage();
+    QPixmap TileImage(int layer, int x, int y);
 private:
     QDomElement root;
     Map *map;

@@ -77,6 +77,20 @@ QPixmap TMXFiles::TilesetImage()
     return map->tileset.image.tileset_image;
 }
 
+QPixmap TMXFiles::TileImage(int layer, int x, int y)
+{
+    QPixmap pmx = TilesetImage();
+    int margin = map->tileset.margin;
+    int spacing = map->tileset.spacing;
+    int tx = map->tilewidth;
+    int ty = map->tileheight;
+
+    int px = margin + (spacing + tx)*x;
+    int py = margin + (spacing + ty)*y;
+    QPixmap tile = pmx.copy(px, py, tx, ty);
+    return tile;
+}
+
 /***************************
 *           MAP
 ****************************/
