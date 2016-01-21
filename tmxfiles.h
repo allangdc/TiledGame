@@ -6,6 +6,7 @@
 #include <QDomNode>
 #include <QDomElement>
 #include <QSize>
+#include <QPixmap>
 
 class Image {
 public:
@@ -15,6 +16,7 @@ public:
     QString source;
     int width;
     int height;
+    QPixmap tileset_image;
 };
 
 class Animation {
@@ -126,6 +128,7 @@ public:
     int MatrixID(int layer, int x, int y);
     Tile MatrixTile(int layer, int x, int y);
     Tile TileByID(int id);
+    QPixmap TilesetImage();
 private:
     QDomElement root;
     Map *map;

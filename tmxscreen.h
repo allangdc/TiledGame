@@ -5,6 +5,8 @@
 #include <QVector>
 #include <QList>
 #include <QRectF>
+#include <QPixmap>
+
 #include "tmxfiles.h"
 
 class Node {

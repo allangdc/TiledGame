@@ -72,6 +72,11 @@ Tile TMXFiles::TileByID(int id)
     return map->tileset.tile.at(id);
 }
 
+QPixmap TMXFiles::TilesetImage()
+{
+    return map->tileset.image.tileset_image;
+}
+
 /***************************
 *           MAP
 ****************************/
@@ -175,6 +180,8 @@ void Image::Load(QDomElement *img)
     source = img->attribute("source");
     width = img->attribute("width").toInt();
     height = img->attribute("height").toInt();
+
+    tileset_image.load(source);
 }
 
 void Image::Print(int tabs)
