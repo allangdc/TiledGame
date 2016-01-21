@@ -39,7 +39,56 @@ void TMXScreen::setScreenSize(QSizeF size)
     }
 }
 
-void TMXScreen::TestScreen()
+void TMXScreen::TestScreenTop()
+{
+    QList< QVector<Node> >::iterator it;
+    QVector<Node>::iterator vit;
+    Node *node;
+
+    it = nodes.begin();
+    QVector<Node> *vnode = &(*it);
+    vit = vnode->begin();
+    node = &(*vit);
+    while(screen.top() < node->geometry.top()) {
+        if(!AddRowTop())
+            break;
+        it = nodes.begin();
+        vnode = &(*it);
+        vit = vnode->begin();
+        node = &(*vit);
+    }
+
+    while(screen.top() > node->geometry.top() + node->geometry.height()) {
+        RemoveRowTop();
+        it = nodes.begin();
+        vnode = &(*it);
+        vit = vnode->begin();
+        node = &(*vit);
+    }
+
+    it = nodes.end()-1;
+    vnode = &(*it);
+    vit = vnode->begin();
+    node = &(*vit);
+    while(screen.top() + screen.height() > node->geometry.top() + node->geometry.height()) {
+        if(!AddRowBottom())
+            break;
+        it = nodes.end()-1;
+        vnode = &(*it);
+        vit = vnode->begin();
+        node = &(*vit);
+    }
+
+    while(screen.top() + screen.height() < node->geometry.top()) {
+        RemoveRowBottom();
+        it = nodes.end()-1;
+        vnode = &(*it);
+        vit = vnode->begin();
+        node = &(*vit);
+    }
+}
+
+void TMXScreen::TestScreenRight()
 {
     QList< QVector<Node> >::iterator it;
     QVector<Node>::iterator vit;
@@ -50,22 +99,54 @@ void TMXScreen::TestScreen()
 
     vit = vnode->end()-1;
     node = &(*vit);
-
     while(screen.left() + screen.width() > node->geometry.left() + node->geometry.width()) {
-        AddColumnRight();
+        if(!AddColumnRight())
+            break;
+        vit = vnode->end()-1;
+        node = &(*vit);
+    }
+
+    vit = vnode->end()-1;
+    node = &(*vit);
+    while(screen.left() + screen.width() < node->geometry.left()) {
+        RemoveColumnRight();
+        vit = vnode->end()-1;
+        node = &(*vit);
     }
 
     vit = vnode->begin();
     node = &(*vit);
-    while() //Implement movement
+    while(screen.left() < node->geometry.left()) {
+        if(!AddColumnLeft())
+            break;
+        vit = vnode->begin();
+        node = &(*vit);
+    }
+
+    vit = vnode->begin();
+    node = &(*vit);
+    while(node->geometry.left() + node->geometry.width() < screen.left()) {
+        RemoveColumnLeft();
+        vit = vnode->begin();
+        node = &(*vit);
+    }
 }
 
 void TMXScreen::MoveRight(qreal step)
 {
     screen.setLeft(screen.left() + step);
+    screen.setWidth(screen.width() + step);
+    TestScreenRight();
 }
 
-void TMXScreen::AddColumnRight()
+void TMXScreen::MoveTop(qreal step)
+{
+    screen.setTop(screen.top() + step);
+    screen.setHeight(screen.height() + step);
+    TestScreenTop();
+}
+
+bool TMXScreen::AddColumnRight()
 {
     QList< QVector<Node> >::iterator it;
     for(it = nodes.begin(); it != nodes.end(); it++) {
@@ -73,12 +154,14 @@ void TMXScreen::AddColumnRight()
         Node node = vnode->at(vnode->size()-1);
         node.coord.setX(node.coord.x() + 1);
         node.geometry.setLeft(node.geometry.left() + tmxfile->TiledSize().width());
+        node.geometry.setWidth(node.geometry.width() + tmxfile->TiledSize().width());
         node.value = tmxfile->MatrixID(0, node.coord.x(), node.coord.y());
         vnode->push_back(node);
     }
+    return true;
 }
 
-void TMXScreen::AddColumnLeft()
+bool TMXScreen::AddColumnLeft()
 {
     QList< QVector<Node> >::iterator it;
     for(it = nodes.begin(); it != nodes.end(); it++) {
@@ -86,12 +169,14 @@ void TMXScreen::AddColumnLeft()
         Node node = vnode->at(0);
         node.coord.setX(node.coord.x() - 1);
         node.geometry.setLeft(node.geometry.left() - tmxfile->TiledSize().width());
+        node.geometry.setWidth(node.geometry.width() - tmxfile->TiledSize().width());
         node.value = tmxfile->MatrixID(0, node.coord.x(), node.coord.y());
         vnode->push_front(node);
     }
+    return true;
 }
 
-void TMXScreen::AddRowBottom()
+bool TMXScreen::AddRowBottom()
 {
     QList< QVector<Node> >::iterator it;
     it = nodes.end() - 1;
@@ -102,13 +187,15 @@ void TMXScreen::AddRowBottom()
         Node node = *vit;
         node.coord.setY(node.coord.y() + 1);
         node.geometry.setTop(node.geometry.top() + tmxfile->TiledSize().height());
+        node.geometry.setHeight(node.geometry.height() + tmxfile->TiledSize().height());
         node.value = tmxfile->MatrixID(0, node.coord.x(), node.coord.y());
         n.push_back(node);
     }
     nodes.push_back(n);
+    return true;
 }
 
-void TMXScreen::AddRowTop()
+bool TMXScreen::AddRowTop()
 {
     QList< QVector<Node> >::iterator it;
     it = nodes.begin();
@@ -119,10 +206,12 @@ void TMXScreen::AddRowTop()
         Node node = *vit;
         node.coord.setY(node.coord.y() - 1);
         node.geometry.setTop(node.geometry.top() - tmxfile->TiledSize().height());
+        node.geometry.setHeight(node.geometry.height() - tmxfile->TiledSize().height());
         node.value = tmxfile->MatrixID(0, node.coord.x(), node.coord.y());
         n.push_back(node);
     }
     nodes.push_front(n);
+    return true;
 }
 
 void TMXScreen::RemoveColumnRight()

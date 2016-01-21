@@ -16,8 +16,7 @@ int main(int argc, char *argv[])
 
     TMXScreen src(&tmx);
     src.setScreenSize(QSizeF(300, 300));
-    src.AddColumnRight();
-    src.RemoveColumnLeft();
+    src.MoveTop(50);
     src.Print();
 
     //tmx.Print();

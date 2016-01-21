@@ -21,13 +21,15 @@ public:
     TMXScreen(TMXFiles *tmxfile);
     void setScreenSize(QSizeF size);
 
-    void TestScreen();
+    void TestScreenRight();
     void MoveRight(qreal step);
+    void TestScreenTop();
+    void MoveTop(qreal step);
 
-    void AddColumnRight();
-    void AddColumnLeft();
-    void AddRowBottom();
-    void AddRowTop();
+    bool AddColumnRight();
+    bool AddColumnLeft();
+    bool AddRowBottom();
+    bool AddRowTop();
 
     void RemoveColumnRight();
     void RemoveColumnLeft();
