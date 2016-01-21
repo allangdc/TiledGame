@@ -13,10 +13,12 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-    tmxfiles.cpp
+    tmxfiles.cpp \
+    tmxscreen.cpp
 
 HEADERS  += \
-    tmxfiles.h
+    tmxfiles.h \
+    tmxscreen.h
 
 FORMS    +=
 

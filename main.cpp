@@ -4,19 +4,22 @@
 #include <QDebug>
 
 #include "tmxfiles.h"
+#include "tmxscreen.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-//    MainWindow w;
-//    w.show();
-
-
 
     TMXFiles tmx;
 
     tmx.ReadFiles("/tmp/map_tank.tmx");
-    Tile tile = tmx.MatrixTile(0, 5, 3);
+
+    TMXScreen src(&tmx);
+    src.setScreenSize(QSizeF(300, 300));
+    src.AddColumnRight();
+    src.RemoveColumnLeft();
+    src.Print();
+
     //tmx.Print();
 
 //    for(int y=0; y<tmx.MatrixSize().height(); y++) {

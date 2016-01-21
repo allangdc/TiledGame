@@ -67,6 +67,11 @@ Tile TMXFiles::MatrixTile(int layer, int x, int y)
     return map->tileset.tile.at(id);
 }
 
+Tile TMXFiles::TileByID(int id)
+{
+    return map->tileset.tile.at(id);
+}
+
 /***************************
 *           MAP
 ****************************/

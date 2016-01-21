@@ -125,6 +125,7 @@ public:
     int NumLayers();
     int MatrixID(int layer, int x, int y);
     Tile MatrixTile(int layer, int x, int y);
+    Tile TileByID(int id);
 private:
     QDomElement root;
     Map *map;
